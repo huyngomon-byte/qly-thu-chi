@@ -12,30 +12,30 @@ import { Transaction, TransactionType, PaymentMethod } from '../types';
 const TYPE_CONFIG = {
   expense: {
     label: 'Chi tiêu',
-    gradient: 'from-rose-500 to-red-600',
-    lightBg: 'bg-rose-50 dark:bg-rose-900/20',
-    border: 'border-rose-400',
-    text: 'text-rose-600',
+    gradient: 'from-[#9b3f5a] to-[#c2547a]',
+    lightBg: 'bg-[#ffd9e0]/40',
+    border: 'border-[#ff8fab]',
+    text: 'text-[#9b3f5a]',
     icon: TrendingDown,
-    iconBg: 'bg-rose-500',
+    iconBg: 'bg-[#9b3f5a]',
   },
   income: {
     label: 'Thu nhập',
-    gradient: 'from-emerald-500 to-green-600',
-    lightBg: 'bg-emerald-50 dark:bg-emerald-900/20',
-    border: 'border-emerald-400',
-    text: 'text-emerald-600',
+    gradient: 'from-[#146a5f] to-[#1e9082]',
+    lightBg: 'bg-[#a4f1e3]/30',
+    border: 'border-[#89d4c7]',
+    text: 'text-[#146a5f]',
     icon: TrendingUp,
-    iconBg: 'bg-emerald-500',
+    iconBg: 'bg-[#146a5f]',
   },
   transfer: {
     label: 'Chuyển khoản',
-    gradient: 'from-blue-500 to-indigo-600',
-    lightBg: 'bg-blue-50 dark:bg-blue-900/20',
-    border: 'border-blue-400',
-    text: 'text-blue-600',
+    gradient: 'from-[#4d44e3] to-[#6b63f5]',
+    lightBg: 'bg-[#e2dfff]/40',
+    border: 'border-[#aaa8ff]',
+    text: 'text-[#4d44e3]',
     icon: ArrowLeftRight,
-    iconBg: 'bg-blue-500',
+    iconBg: 'bg-[#4d44e3]',
   },
 };
 
@@ -124,7 +124,7 @@ export function AddTransaction() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F6FF] dark:bg-[#0C0C1A]">
+    <div className="min-h-screen bg-[#fef8fa]">
       {/* Colored header */}
       <div className={`bg-gradient-to-br ${cfg.gradient} px-4 pt-5 pb-20 relative overflow-hidden`}
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
@@ -183,14 +183,14 @@ export function AddTransaction() {
 
       {/* Form card */}
       <div className="px-4 -mt-12 pb-8 max-w-lg mx-auto">
-        <div className="bg-white dark:bg-gray-900 rounded-[2rem] shadow-xl p-5 space-y-5"
-          style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.10)' }}>
+        <div className="bg-white rounded-[2rem] p-5 space-y-5 border border-[#ffd9e0]/20"
+          style={{ boxShadow: '0 8px 32px rgba(255,143,171,0.14)' }}>
 
           {/* Category grid */}
           {type !== 'transfer' && (
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Danh mục</p>
-              {errors.category && <p className="text-xs text-red-500 mb-2">{errors.category}</p>}
+              <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-3">Danh mục</p>
+              {errors.category && <p className="text-xs text-[#9b3f5a] mb-2">{errors.category}</p>}
               <div className="grid grid-cols-4 gap-2">
                 {categories.map(cat => {
                   const isActive = categoryId === cat.id;
@@ -199,11 +199,11 @@ export function AddTransaction() {
                       key={cat.id}
                       onClick={() => setCategoryId(cat.id)}
                       className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl border-2 transition-all duration-150 active:scale-95 ${
-                        isActive ? `${cfg.border} ${cfg.lightBg}` : 'border-transparent bg-gray-50 dark:bg-gray-800'
+                        isActive ? `${cfg.border} ${cfg.lightBg}` : 'border-transparent bg-[#f8f2f4]'
                       }`}
                     >
                       <span className="text-2xl">{cat.icon}</span>
-                      <span className={`text-[10px] font-semibold text-center leading-tight ${isActive ? cfg.text : 'text-gray-500 dark:text-gray-400'}`}>
+                      <span className={`text-[10px] font-semibold text-center leading-tight ${isActive ? cfg.text : 'text-[#877275]'}`}>
                         {cat.name}
                       </span>
                     </button>
@@ -215,7 +215,7 @@ export function AddTransaction() {
 
           {/* Date */}
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ngày</p>
+            <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-2">Ngày</p>
             <input
               type="date"
               value={date}
@@ -226,17 +226,17 @@ export function AddTransaction() {
 
           {/* Wallet */}
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+            <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-2">
               {type === 'transfer' ? 'Ví nguồn' : 'Ví / Tài khoản'}
             </p>
-            {errors.wallet && <p className="text-xs text-red-500 mb-1">{errors.wallet}</p>}
+            {errors.wallet && <p className="text-xs text-[#9b3f5a] mb-1">{errors.wallet}</p>}
             <div className="flex gap-2 flex-wrap">
               {activeWallets.map(w => (
                 <button
                   key={w.id}
                   onClick={() => setWalletId(w.id)}
                   className={`flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-semibold border-2 transition-all ${
-                    walletId === w.id ? `${cfg.border} ${cfg.lightBg} ${cfg.text}` : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-500'
+                    walletId === w.id ? `${cfg.border} ${cfg.lightBg} ${cfg.text}` : 'border-[#dac0c4]/40 bg-[#f8f2f4] text-[#877275]'
                   }`}
                 >
                   {w.type === 'cash' ? '💵' : w.type === 'bank' ? '🏦' : w.type === 'ewallet' ? '📱' : '💳'}
@@ -249,15 +249,15 @@ export function AddTransaction() {
           {/* To wallet (transfer) */}
           {type === 'transfer' && (
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ví đích</p>
-              {errors.toWallet && <p className="text-xs text-red-500 mb-1">{errors.toWallet}</p>}
+              <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-2">Ví đích</p>
+              {errors.toWallet && <p className="text-xs text-[#9b3f5a] mb-1">{errors.toWallet}</p>}
               <div className="flex gap-2 flex-wrap">
                 {activeWallets.filter(w => w.id !== walletId).map(w => (
                   <button
                     key={w.id}
                     onClick={() => setToWalletId(w.id)}
                     className={`flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-semibold border-2 transition-all ${
-                      toWalletId === w.id ? 'border-blue-400 bg-blue-50 text-blue-600' : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-500'
+                      toWalletId === w.id ? 'border-blue-400 bg-blue-50 text-blue-600' : 'border-[#dac0c4]/40 bg-[#f8f2f4] text-[#877275]'
                     }`}
                   >
                     {w.type === 'cash' ? '💵' : '🏦'} {w.name}
@@ -269,14 +269,14 @@ export function AddTransaction() {
 
           {/* Payment method */}
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Phương thức</p>
+            <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-2">Phương thức</p>
             <div className="flex gap-2">
               {PAYMENT_METHODS.map(m => (
                 <button
                   key={m.value}
                   onClick={() => setPaymentMethod(m.value)}
                   className={`flex items-center gap-1 px-3 py-2 rounded-2xl text-xs font-semibold border-2 transition-all ${
-                    paymentMethod === m.value ? `${cfg.border} ${cfg.lightBg} ${cfg.text}` : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-500'
+                    paymentMethod === m.value ? `${cfg.border} ${cfg.lightBg} ${cfg.text}` : 'border-[#dac0c4]/40 bg-[#f8f2f4] text-[#877275]'
                   }`}
                 >
                   {m.emoji} {m.label}
@@ -288,7 +288,7 @@ export function AddTransaction() {
           {/* Payee + Note */}
           <div className="space-y-3">
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nơi chi / Người nhận</p>
+              <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-2">Nơi chi / Người nhận</p>
               <input
                 value={payee}
                 onChange={e => setPayee(e.target.value)}
@@ -297,7 +297,7 @@ export function AddTransaction() {
               />
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ghi chú</p>
+              <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-2">Ghi chú</p>
               <textarea
                 value={note}
                 onChange={e => setNote(e.target.value)}
@@ -309,18 +309,18 @@ export function AddTransaction() {
           </div>
 
           {/* Fixed expense toggle */}
-          <label className="flex items-center gap-3 py-3 px-4 rounded-2xl bg-gray-50 dark:bg-gray-800 cursor-pointer">
-            <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${isFixed ? `${cfg.iconBg} border-transparent` : 'border-gray-300 dark:border-gray-600'}`}
+          <label className="flex items-center gap-3 py-3 px-4 rounded-2xl bg-[#f8f2f4] cursor-pointer">
+            <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${isFixed ? `${cfg.iconBg} border-transparent` : 'border-[#dac0c4]'}`}
               onClick={() => setIsFixed(!isFixed)}>
               {isFixed && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">Chi tiêu cố định</p>
-              <p className="text-[11px] text-gray-400">Khoản lặp lại hàng tháng</p>
+              <p className="text-sm font-semibold text-[#1d1b1d]">Chi tiêu cố định</p>
+              <p className="text-[11px] text-[#877275]">Khoản lặp lại hàng tháng</p>
             </div>
           </label>
 
-          {errors.submit && <p className="text-red-500 text-sm text-center">{errors.submit}</p>}
+          {errors.submit && <p className="text-[#9b3f5a] text-sm text-center">{errors.submit}</p>}
 
           {/* Submit */}
           <button
