@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, Pencil, Trash2, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Search, SlidersHorizontal, Pencil, Trash2, ChevronLeft, ChevronRight, X, CalendarDays } from 'lucide-react';
 import { Timestamp } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext';
 import { useTransactions } from '../hooks/useTransactions';
@@ -9,7 +9,7 @@ import { useCategories } from '../hooks/useCategories';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
-import { formatCurrency, formatCompact } from '../utils/currency';
+import { formatCompact } from '../utils/currency';
 import { formatDateFull, getCurrentMonth, getMonthRange, getMonthLabel, getPrevMonth, getNextMonth } from '../utils/date';
 import { filterByDateRange, getTotalIncome, getTotalExpense } from '../utils/calculations';
 import { Transaction, TransactionType } from '../types';
@@ -21,6 +21,12 @@ const TYPE_FILTERS = [
   { value: 'transfer', label: '↔ Chuyển' },
 ];
 
+const todayStr = () => new Date().toISOString().slice(0, 10);
+const monthStartStr = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
+};
+
 export function Transactions() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -28,7 +34,10 @@ export function Transactions() {
   const { wallets } = useWallets(user?.uid);
   const { categories } = useCategories(user?.uid);
 
+  const [dateMode, setDateMode] = useState<'month' | 'range'>('month');
   const [month, setMonth] = useState(getCurrentMonth());
+  const [rangeFrom, setRangeFrom] = useState(monthStartStr);
+  const [rangeTo, setRangeTo] = useState(todayStr);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState<'all' | TransactionType>('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -37,7 +46,12 @@ export function Transactions() {
   const [deleteTarget, setDeleteTarget] = useState<Transaction | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const { start, end } = useMemo(() => getMonthRange(month), [month]);
+  const { start, end } = useMemo(() => {
+    if (dateMode === 'range') {
+      return { start: new Date(rangeFrom + 'T00:00:00'), end: new Date(rangeTo + 'T23:59:59') };
+    }
+    return getMonthRange(month);
+  }, [dateMode, month, rangeFrom, rangeTo]);
 
   const filtered = useMemo(() => {
     let list = filterByDateRange(transactions, start, end);
@@ -89,16 +103,60 @@ export function Transactions() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">Giao dịch</h1>
-        <div className="flex items-center gap-1 bg-white dark:bg-gray-900 rounded-2xl shadow-sm px-1 py-1">
-          <button onClick={() => setMonth(getPrevMonth(month))} className="p-1.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-400 transition-colors">
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 px-1">{getMonthLabel(month)}</span>
-          <button onClick={() => setMonth(getNextMonth(month))} className="p-1.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-400 transition-colors">
-            <ChevronRight className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2">
+          {/* Date mode toggle */}
+          <div className="flex items-center gap-0.5 bg-white dark:bg-gray-900 rounded-2xl shadow-sm px-1 py-1">
+            <button
+              onClick={() => setDateMode('month')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${dateMode === 'month' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
+            >
+              Tháng
+            </button>
+            <button
+              onClick={() => setDateMode('range')}
+              className={`px-2 py-1.5 rounded-xl transition-colors ${dateMode === 'range' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
+            >
+              <CalendarDays className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Month navigator (only in month mode) */}
+          {dateMode === 'month' && (
+            <div className="flex items-center gap-1 bg-white dark:bg-gray-900 rounded-2xl shadow-sm px-1 py-1">
+              <button onClick={() => setMonth(getPrevMonth(month))} className="p-1.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-400 transition-colors">
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 px-1">{getMonthLabel(month)}</span>
+              <button onClick={() => setMonth(getNextMonth(month))} className="p-1.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-400 transition-colors">
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Date range picker (only in range mode) */}
+      {dateMode === 'range' && (
+        <div className="flex items-center gap-2 mb-4 bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-3 border border-gray-100 dark:border-gray-800">
+          <CalendarDays className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+          <input
+            type="date"
+            value={rangeFrom}
+            max={rangeTo}
+            onChange={e => setRangeFrom(e.target.value)}
+            className="flex-1 text-xs text-gray-700 dark:text-gray-300 bg-transparent focus:outline-none"
+          />
+          <span className="text-gray-300 text-xs">→</span>
+          <input
+            type="date"
+            value={rangeTo}
+            min={rangeFrom}
+            max={todayStr()}
+            onChange={e => setRangeTo(e.target.value)}
+            className="flex-1 text-xs text-gray-700 dark:text-gray-300 bg-transparent focus:outline-none"
+          />
+        </div>
+      )}
 
       {/* Month summary */}
       <div className="grid grid-cols-3 gap-2 mb-4">

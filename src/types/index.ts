@@ -80,6 +80,33 @@ export interface RecurringExpense {
   updatedAt: Timestamp;
 }
 
+export type LoanType = 'borrow' | 'lend';
+export type LoanStatus = 'active' | 'paid';
+
+export interface LoanPayment {
+  id: string;
+  amount: number;
+  date: Timestamp;
+  note: string;
+}
+
+export interface Loan {
+  id: string;
+  userId: string;
+  type: LoanType;
+  personName: string;
+  amount: number;
+  paidAmount: number;
+  date: Timestamp;
+  dueDate?: Timestamp;
+  status: LoanStatus;
+  walletId: string;
+  note: string;
+  payments: LoanPayment[];
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 export interface UserSettings {
   currency: string;
   darkMode: boolean;
