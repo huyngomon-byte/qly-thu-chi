@@ -109,17 +109,17 @@ export function Wallets() {
   return (
     <div className="px-4 py-5 lg:px-6 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Ví / Tài khoản</h1>
+        <h1 className="text-xl font-bold text-[#1d1b1d] font-jakarta">Ví / Tài khoản</h1>
         <Button size="sm" icon={<Plus className="w-4 h-4" />} onClick={openAdd}>
           Thêm ví
         </Button>
       </div>
 
       {/* Total balance */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-5 mb-5 text-white">
-        <p className="text-sm text-indigo-200 mb-1">Tổng số dư</p>
-        <p className="text-3xl font-bold">{formatCurrency(totalBalance)}</p>
-        <p className="text-xs text-indigo-200 mt-1">{wallets.filter(w => w.isActive).length} ví đang hoạt động</p>
+      <div className="bg-white rounded-[1.5rem] p-5 mb-5 border border-[#ffd9e0]/30 shadow-[0_4px_16px_rgba(255,143,171,0.12)]">
+        <p className="text-[10px] font-bold text-[#877275] uppercase tracking-widest mb-1">Tổng số dư</p>
+        <p className="text-3xl font-bold text-[#9b3f5a] font-jakarta">{formatCurrency(totalBalance)}</p>
+        <p className="text-xs text-[#877275] mt-1">{wallets.filter(w => w.isActive).length} ví đang hoạt động</p>
       </div>
 
       {wallets.length === 0 ? (
@@ -142,41 +142,41 @@ export function Wallets() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-semibold text-gray-900 dark:text-white">{wallet.name}</p>
+                    <p className="font-semibold text-[#1d1b1d]">{wallet.name}</p>
                     {!wallet.isActive && (
-                      <span className="text-[10px] bg-gray-100 dark:bg-gray-800 text-gray-500 px-1.5 py-0.5 rounded-md">Tắt</span>
+                      <span className="text-[10px] bg-[#f8f2f4] text-[#877275] px-1.5 py-0.5 rounded-full">Tắt</span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-[#877275]">
                     {WALLET_TYPES.find(t => t.value === wallet.type)?.label.split(' ')[1] || wallet.type}
                     {wallet.note ? ` • ${wallet.note}` : ''}
                   </p>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className={`font-bold text-base ${wallet.currentBalance >= 0 ? 'text-gray-900 dark:text-white' : 'text-red-500'}`}>
+                  <p className={`font-bold text-base font-jakarta ${wallet.currentBalance >= 0 ? 'text-[#1d1b1d]' : 'text-[#9b3f5a]'}`}>
                     {formatCurrency(wallet.currentBalance)}
                   </p>
-                  <p className="text-[10px] text-gray-400">
+                  <p className="text-[10px] text-[#877275]">
                     Ban đầu: {formatCurrency(wallet.initialBalance)}
                   </p>
                 </div>
                 <div className="flex items-center gap-1 ml-2">
                   <button
                     onClick={() => updateWallet(wallet.id, { isActive: !wallet.isActive })}
-                    className="p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-400"
+                    className="p-2 rounded-full hover:bg-[#f8f2f4] text-[#877275]"
                     title={wallet.isActive ? 'Tắt ví' : 'Bật ví'}
                   >
                     {wallet.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                   </button>
                   <button
                     onClick={() => openEdit(wallet)}
-                    className="p-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-gray-400 hover:text-indigo-600"
+                    className="p-2 rounded-full hover:bg-[#ffd9e0]/40 text-[#877275] hover:text-[#9b3f5a]"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setDeleteTarget(wallet)}
-                    className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500"
+                    className="p-2 rounded-full hover:bg-[#ffd9e0]/40 text-[#877275] hover:text-[#9b3f5a]"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -217,13 +217,13 @@ export function Wallets() {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Màu</label>
+            <label className="block text-[10px] font-bold text-[#877275] uppercase tracking-wider mb-1.5">Màu</label>
             <div className="flex gap-2 flex-wrap">
               {WALLET_COLORS.map(color => (
                 <button
                   key={color}
                   onClick={() => setForm(f => ({ ...f, color }))}
-                  className={`w-7 h-7 rounded-full transition-all ${form.color === color ? 'ring-2 ring-offset-2 ring-indigo-500 scale-110' : ''}`}
+                  className={`w-7 h-7 rounded-full transition-all ${form.color === color ? 'ring-2 ring-offset-2 ring-[#9b3f5a] scale-110' : ''}`}
                   style={{ background: color }}
                 />
               ))}

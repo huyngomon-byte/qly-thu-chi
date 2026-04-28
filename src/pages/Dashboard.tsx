@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Sector,
 } from 'recharts';
-import { TrendingUp, TrendingDown, ChevronLeft, ChevronRight, Lightbulb, Handshake, Settings } from 'lucide-react';
+import { TrendingUp, TrendingDown, ChevronLeft, ChevronRight, Lightbulb, Handshake, Settings, CalendarDays } from 'lucide-react';
 import { Timestamp } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext';
 import { useTransactions } from '../hooks/useTransactions';
@@ -47,10 +47,16 @@ function getInsights(totalIncome: number, totalExpense: number, month: string, p
   return { avgDaily, projected, savingsRate, monthChange, daysLeft, budgetPerDay };
 }
 
+const todayStr   = () => new Date().toISOString().slice(0, 10);
+const monthStart = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`; };
+
 export function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [month, setMonth] = useState(getCurrentMonth());
+  const [dateMode,  setDateMode]  = useState<'month' | 'range'>('month');
+  const [month,     setMonth]     = useState(getCurrentMonth());
+  const [rangeFrom, setRangeFrom] = useState(monthStart);
+  const [rangeTo,   setRangeTo]   = useState(todayStr);
   const [activePieIndex, setActivePieIndex] = useState<number | undefined>(undefined);
 
   const { transactions, loading } = useTransactions(user?.uid);
@@ -59,7 +65,10 @@ export function Dashboard() {
   const { budget } = useBudgets(user?.uid, month);
   const { totalBorrow, totalLend } = useLoans(user?.uid);
 
-  const { start, end } = useMemo(() => getMonthRange(month), [month]);
+  const { start, end } = useMemo(() => {
+    if (dateMode === 'range') return { start: new Date(rangeFrom + 'T00:00:00'), end: new Date(rangeTo + 'T23:59:59') };
+    return getMonthRange(month);
+  }, [dateMode, month, rangeFrom, rangeTo]);
   const monthTx = useMemo(() => filterByDateRange(transactions, start, end), [transactions, start, end]);
 
   const prevMonthRange = useMemo(() => getMonthRange(getPrev(month)), [month]);
@@ -108,32 +117,59 @@ export function Dashboard() {
     <div className="pb-4 max-w-xl mx-auto lg:max-w-5xl space-y-4">
 
       {/* ── Sticky header ── */}
-      <div className="sticky top-0 z-30 bg-[#fef8fa]/90 backdrop-blur-md px-4 pt-5 pb-3 flex items-center justify-between">
-        <div>
-          <p className="text-xs text-[#877275] font-medium">Xin chào 👋</p>
-          <h1 className="text-xl font-bold text-[#1d1b1d] font-jakarta">{firstName}</h1>
+      <div className="sticky top-0 z-30 bg-[#fef8fa]/90 backdrop-blur-md px-4 pt-5 pb-3">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-xs text-[#877275] font-medium">Xin chào 👋</p>
+            <h1 className="text-xl font-bold text-[#1d1b1d] font-jakarta">{firstName}</h1>
+          </div>
+          <button onClick={() => navigate('/settings')} className="w-9 h-9 bg-white rounded-2xl flex items-center justify-center text-[#877275] shadow-pink-sm">
+            <Settings className="w-4 h-4" />
+          </button>
         </div>
-        <button onClick={() => navigate('/settings')} className="w-9 h-9 bg-white rounded-2xl flex items-center justify-center text-[#877275] shadow-pink-sm">
-          <Settings className="w-4 h-4" />
-        </button>
+
+        {/* Date mode controls */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5 bg-white rounded-full shadow-pink-sm border border-[#ffd9e0]/30 px-1 py-1">
+            <button
+              onClick={() => setDateMode('month')}
+              className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-colors ${dateMode === 'month' ? 'bg-[#9b3f5a] text-white' : 'text-[#877275]'}`}
+            >Tháng</button>
+            <button
+              onClick={() => setDateMode('range')}
+              className={`px-2.5 py-1.5 rounded-full transition-colors ${dateMode === 'range' ? 'bg-[#9b3f5a] text-white' : 'text-[#877275]'}`}
+            ><CalendarDays className="w-3.5 h-3.5" /></button>
+          </div>
+
+          {dateMode === 'month' ? (
+            <div className="flex items-center gap-0.5 bg-white rounded-full shadow-pink-sm border border-[#ffd9e0]/30 px-1 py-1">
+              <button onClick={() => setMonth(getPrevMonth(month))} className="p-1 rounded-full hover:bg-[#ffd9e0]/40 text-[#877275]">
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </button>
+              <span className="text-[11px] font-bold text-[#544245] px-1.5">{getMonthLabel(month)}</span>
+              <button onClick={() => setMonth(getNextMonth(month))} className="p-1 rounded-full hover:bg-[#ffd9e0]/40 text-[#877275]">
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 bg-white rounded-full shadow-pink-sm border border-[#ffd9e0]/30 px-3 py-1.5 flex-1">
+              <input type="date" value={rangeFrom} max={rangeTo} onChange={e => setRangeFrom(e.target.value)}
+                className="text-[11px] text-[#544245] bg-transparent focus:outline-none w-[90px]" />
+              <span className="text-[#dac0c4] text-xs">→</span>
+              <input type="date" value={rangeTo} min={rangeFrom} max={todayStr()} onChange={e => setRangeTo(e.target.value)}
+                className="text-[11px] text-[#544245] bg-transparent focus:outline-none w-[90px]" />
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="px-4 space-y-4">
 
         {/* ── Hero balance card ── */}
         <div className="bg-white rounded-[1.5rem] p-5 shadow-pink-md border border-[#ffd9e0]/30">
-          {/* Month nav */}
-          <div className="flex items-center justify-between mb-4">
+            {/* Balance label */}
+          <div className="mb-4">
             <p className="text-[10px] font-bold uppercase tracking-widest text-[#877275]">Tổng số dư</p>
-            <div className="flex items-center gap-0.5 bg-[#f8f2f4] rounded-full px-1 py-1">
-              <button onClick={() => setMonth(getPrevMonth(month))} className="p-1 rounded-full hover:bg-[#ffd9e0]/50 transition-colors">
-                <ChevronLeft className="w-3.5 h-3.5 text-[#877275]" />
-              </button>
-              <span className="text-[11px] font-bold text-[#544245] px-2">{getMonthLabel(month)}</span>
-              <button onClick={() => setMonth(getNextMonth(month))} className="p-1 rounded-full hover:bg-[#ffd9e0]/50 transition-colors">
-                <ChevronRight className="w-3.5 h-3.5 text-[#877275]" />
-              </button>
-            </div>
           </div>
 
           <div className="flex items-baseline gap-2 mb-5">

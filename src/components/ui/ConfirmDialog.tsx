@@ -25,10 +25,10 @@ export function ConfirmDialog({
     <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
       <div className="p-5">
         <div className="flex items-start gap-3 mb-5">
-          <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
-            <AlertTriangle className="w-5 h-5 text-red-500" />
+          <div className="w-10 h-10 bg-[#ffd9e0] rounded-full flex items-center justify-center flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-[#9b3f5a]" />
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{message}</p>
+          <p className="text-sm text-[#544245] leading-relaxed">{message}</p>
         </div>
         <div className="flex gap-3">
           <Button variant="secondary" onClick={onClose} fullWidth disabled={loading}>
