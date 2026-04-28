@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Plus, Pencil, Trash2, PlayCircle, ToggleLeft, ToggleRight } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRecurring, RecurringFormData } from '../hooks/useRecurring';
@@ -58,10 +58,10 @@ export function Recurring() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!form.name.trim()) errs.name = 'Nhập tên khoản chi';
-    if (!form.amount || form.amount <= 0) errs.amount = 'Số tiền phải > 0';
-    if (!form.categoryId) errs.category = 'Chọn danh mục';
-    if (!form.walletId) errs.wallet = 'Chọn ví';
+    if (!form.name.trim()) errs.name = 'Nháº­p tÃªn khoáº£n chi';
+    if (!form.amount || form.amount <= 0) errs.amount = 'Sá»‘ tiá»n pháº£i > 0';
+    if (!form.categoryId) errs.category = 'Chá»n danh má»¥c';
+    if (!form.walletId) errs.wallet = 'Chá»n vÃ­';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -87,10 +87,10 @@ export function Recurring() {
     setCreatingId(item.id);
     try {
       await createTransaction(item);
-      setToast('Đã tạo giao dịch thành công!');
+      setToast('ÄÃ£ táº¡o giao dá»‹ch thÃ nh cÃ´ng!');
       setTimeout(() => setToast(''), 3000);
     } catch (err: any) {
-      setToast(err.message || 'Có lỗi xảy ra');
+      setToast(err.message || 'CÃ³ lá»—i xáº£y ra');
       setTimeout(() => setToast(''), 3000);
     } finally {
       setCreatingId(null);
@@ -103,26 +103,26 @@ export function Recurring() {
     <div className="px-4 py-5 lg:px-6 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">Chi tiêu cố định</h1>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{getMonthLabel(currentMonth)}</p>
+          <h1 className="text-xl font-bold text-[#1d1b1d]">Chi tiÃªu cá»‘ Ä‘á»‹nh</h1>
+          <p className="text-xs text-[#877275] mt-0.5">{getMonthLabel(currentMonth)}</p>
         </div>
         <Button size="sm" icon={<Plus className="w-4 h-4" />} onClick={openAdd}>
-          Thêm
+          ThÃªm
         </Button>
       </div>
 
       {toast && (
-        <div className="mb-4 p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-sm text-emerald-700 dark:text-emerald-400">
+        <div className="mb-4 p-3 bg-[#a4f1e3]/20 border border-emerald-200 rounded-xl text-sm text-[#146a5f]">
           {toast}
         </div>
       )}
 
       {recurring.length === 0 ? (
         <EmptyState
-          icon="🔄"
-          title="Chưa có khoản chi cố định"
-          description="Thêm các khoản chi định kỳ như tiền nhà, internet, điện thoại..."
-          action={{ label: 'Thêm khoản đầu tiên', onClick: openAdd }}
+          icon="ðŸ”„"
+          title="ChÆ°a cÃ³ khoáº£n chi cá»‘ Ä‘á»‹nh"
+          description="ThÃªm cÃ¡c khoáº£n chi Ä‘á»‹nh ká»³ nhÆ° tiá»n nhÃ , internet, Ä‘iá»‡n thoáº¡i..."
+          action={{ label: 'ThÃªm khoáº£n Ä‘áº§u tiÃªn', onClick: openAdd }}
         />
       ) : (
         <div className="space-y-3">
@@ -139,32 +139,32 @@ export function Recurring() {
                     className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
                     style={{ background: (cat?.color || '#6366f1') + '20' }}
                   >
-                    {cat?.icon || '💸'}
+                    {cat?.icon || 'ðŸ’¸'}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className="font-semibold text-gray-900 dark:text-white text-sm">{item.name}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          Ngày {item.dayOfMonth} hàng tháng • {wallet?.name}
+                        <p className="font-semibold text-[#1d1b1d] text-sm">{item.name}</p>
+                        <p className="text-xs text-[#877275]">
+                          NgÃ y {item.dayOfMonth} hÃ ng thÃ¡ng â€¢ {wallet?.name}
                         </p>
-                        {item.note && <p className="text-xs text-gray-400 mt-0.5">{item.note}</p>}
+                        {item.note && <p className="text-xs text-[#877275] mt-0.5">{item.note}</p>}
                       </div>
-                      <p className="font-bold text-red-500 text-sm flex-shrink-0">
+                      <p className="font-bold text-[#9b3f5a] text-sm flex-shrink-0">
                         -{formatCurrency(item.amount)}
                       </p>
                     </div>
 
                     {isDueSoon && !alreadyCreated && (
-                      <div className="mt-2 text-xs text-amber-600 dark:text-amber-400 font-medium">
-                        ⏰ Sắp đến hạn!
+                      <div className="mt-2 text-xs text-amber-600 font-medium">
+                        â° Sáº¯p Ä‘áº¿n háº¡n!
                       </div>
                     )}
 
                     <div className="flex items-center gap-2 mt-3">
                       {alreadyCreated ? (
-                        <span className="text-xs bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-2 py-1 rounded-lg font-medium">
-                          ✓ Đã tạo tháng này
+                        <span className="text-xs bg-[#a4f1e3]/20 text-[#146a5f] px-2 py-1 rounded-lg font-medium">
+                          âœ“ ÄÃ£ táº¡o thÃ¡ng nÃ y
                         </span>
                       ) : (
                         <Button
@@ -175,20 +175,20 @@ export function Recurring() {
                           loading={creatingId === item.id}
                           disabled={!item.isActive}
                         >
-                          Tạo giao dịch
+                          Táº¡o giao dá»‹ch
                         </Button>
                       )}
                       <button
                         onClick={() => updateRecurring(item.id, { isActive: !item.isActive })}
-                        className="text-gray-400 hover:text-indigo-600"
-                        title={item.isActive ? 'Tắt' : 'Bật'}
+                        className="text-[#877275] hover:text-[#9b3f5a]"
+                        title={item.isActive ? 'Táº¯t' : 'Báº­t'}
                       >
-                        {item.isActive ? <ToggleRight className="w-5 h-5 text-indigo-600" /> : <ToggleLeft className="w-5 h-5" />}
+                        {item.isActive ? <ToggleRight className="w-5 h-5 text-[#9b3f5a]" /> : <ToggleLeft className="w-5 h-5" />}
                       </button>
-                      <button onClick={() => openEdit(item)} className="p-1 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-gray-400 hover:text-indigo-600">
+                      <button onClick={() => openEdit(item)} className="p-1 rounded-lg hover:bg-[#ffd9e0]/30 text-[#877275] hover:text-[#9b3f5a]">
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
-                      <button onClick={() => setDeleteTarget(item)} className="p-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500">
+                      <button onClick={() => setDeleteTarget(item)} className="p-1 rounded-lg hover:bg-[#ffd9e0]/20 text-[#877275] hover:text-[#9b3f5a]">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -200,18 +200,18 @@ export function Recurring() {
         </div>
       )}
 
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editTarget ? 'Sửa khoản cố định' : 'Thêm khoản cố định'}>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editTarget ? 'Sá»­a khoáº£n cá»‘ Ä‘á»‹nh' : 'ThÃªm khoáº£n cá»‘ Ä‘á»‹nh'}>
         <div className="p-5 space-y-4">
           <Input
-            label="Tên khoản chi"
+            label="TÃªn khoáº£n chi"
             value={form.name}
             onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-            placeholder="VD: Tiền nhà, Netflix..."
+            placeholder="VD: Tiá»n nhÃ , Netflix..."
             error={errors.name}
           />
 
           <Input
-            label="Số tiền"
+            label="Sá»‘ tiá»n"
             type="number"
             value={form.amount || ''}
             onChange={e => setForm(f => ({ ...f, amount: parseFloat(e.target.value) || 0 }))}
@@ -220,7 +220,7 @@ export function Recurring() {
           />
 
           <Select
-            label="Danh mục"
+            label="Danh má»¥c"
             value={form.categoryId}
             onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))}
             options={expenseCategories.map(c => ({ value: c.id, label: `${c.icon} ${c.name}` }))}
@@ -228,7 +228,7 @@ export function Recurring() {
           />
 
           <Select
-            label="Ví thanh toán"
+            label="VÃ­ thanh toÃ¡n"
             value={form.walletId}
             onChange={e => setForm(f => ({ ...f, walletId: e.target.value }))}
             options={wallets.filter(w => w.isActive).map(w => ({ value: w.id, label: w.name }))}
@@ -236,24 +236,24 @@ export function Recurring() {
           />
 
           <Input
-            label="Ngày trong tháng"
+            label="NgÃ y trong thÃ¡ng"
             type="number"
             min={1}
             max={31}
             value={form.dayOfMonth}
             onChange={e => setForm(f => ({ ...f, dayOfMonth: parseInt(e.target.value) || 1 }))}
-            hint="Ngày lặp lại hàng tháng (1-31)"
+            hint="NgÃ y láº·p láº¡i hÃ ng thÃ¡ng (1-31)"
           />
 
           <Input
-            label="Ghi chú"
+            label="Ghi chÃº"
             value={form.note}
             onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
-            placeholder="Tùy chọn..."
+            placeholder="TÃ¹y chá»n..."
           />
 
           <Button fullWidth onClick={handleSave} loading={saving}>
-            {editTarget ? 'Lưu' : 'Thêm'}
+            {editTarget ? 'LÆ°u' : 'ThÃªm'}
           </Button>
         </div>
       </Modal>
@@ -268,10 +268,11 @@ export function Recurring() {
           setDeleteTarget(null);
           setDeleting(false);
         }}
-        title="Xoá khoản cố định"
-        message={`Xoá "${deleteTarget?.name}"? Các giao dịch đã tạo sẽ không bị xoá.`}
+        title="XoÃ¡ khoáº£n cá»‘ Ä‘á»‹nh"
+        message={`XoÃ¡ "${deleteTarget?.name}"? CÃ¡c giao dá»‹ch Ä‘Ã£ táº¡o sáº½ khÃ´ng bá»‹ xoÃ¡.`}
         loading={deleting}
       />
     </div>
   );
 }
+

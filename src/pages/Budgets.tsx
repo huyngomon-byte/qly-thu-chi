@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useBudgets } from '../hooks/useBudgets';
@@ -72,32 +72,32 @@ export function Budgets() {
   const totalUsage = getBudgetUsage(totalSpent, totalBudget);
 
   const getStatusColor = (status: 'safe' | 'warning' | 'over') => {
-    if (status === 'over') return 'bg-red-500';
+    if (status === 'over') return 'bg-[#ffd9e0]/200';
     if (status === 'warning') return 'bg-amber-500';
-    return 'bg-emerald-500';
+    return 'bg-[#a4f1e3]/200';
   };
 
   return (
     <div className="px-4 py-5 lg:px-6 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Ngân sách</h1>
+        <h1 className="text-xl font-bold text-[#1d1b1d]">NgÃ¢n sÃ¡ch</h1>
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-1">
-            <button onClick={() => { setMonth(getPrevMonth(month)); setEditing(false); }} className="p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500">
+          <div className="flex items-center gap-1 bg-white border border-[#ffd9e0]/20 rounded-xl p-1">
+            <button onClick={() => { setMonth(getPrevMonth(month)); setEditing(false); }} className="p-1.5 rounded-lg hover:bg-[#f8f2f4] text-[#877275]">
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-xs font-medium text-gray-700 dark:text-gray-300 px-1">{getMonthLabel(month)}</span>
-            <button onClick={() => { setMonth(getNextMonth(month)); setEditing(false); }} className="p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500">
+            <span className="text-xs font-medium text-[#544245] px-1">{getMonthLabel(month)}</span>
+            <button onClick={() => { setMonth(getNextMonth(month)); setEditing(false); }} className="p-1.5 rounded-lg hover:bg-[#f8f2f4] text-[#877275]">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
           {!editing ? (
             <Button size="sm" variant="outline" onClick={startEdit}>
-              {budget ? 'Chỉnh sửa' : 'Đặt ngân sách'}
+              {budget ? 'Chá»‰nh sá»­a' : 'Äáº·t ngÃ¢n sÃ¡ch'}
             </Button>
           ) : (
             <Button size="sm" icon={<Save className="w-4 h-4" />} onClick={handleSave} loading={saving}>
-              Lưu
+              LÆ°u
             </Button>
           )}
         </div>
@@ -107,7 +107,7 @@ export function Budgets() {
       <Card className="mb-5">
         <div className="flex items-start justify-between mb-3">
           <div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Tổng ngân sách tháng</p>
+            <p className="text-xs text-[#877275] uppercase tracking-wide">Tá»•ng ngÃ¢n sÃ¡ch thÃ¡ng</p>
             {editing ? (
               <input
                 type="text"
@@ -118,42 +118,42 @@ export function Budgets() {
                   setTotalBudgetStr(raw ? formatAmount(parseInt(raw)) : '');
                 }}
                 placeholder="0"
-                className="text-2xl font-bold bg-transparent border-b-2 border-indigo-500 focus:outline-none text-gray-900 dark:text-white w-full mt-1"
+                className="text-2xl font-bold bg-transparent border-b-2 border-[#9b3f5a] focus:outline-none text-[#1d1b1d] w-full mt-1"
               />
             ) : (
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {totalBudget > 0 ? formatCurrency(totalBudget) : 'Chưa đặt'}
+              <p className="text-2xl font-bold text-[#1d1b1d]">
+                {totalBudget > 0 ? formatCurrency(totalBudget) : 'ChÆ°a Ä‘áº·t'}
               </p>
             )}
           </div>
           <div className="text-right">
-            <p className="text-xs text-gray-500">Đã chi</p>
-            <p className="text-lg font-bold text-red-500">{formatCurrency(totalSpent)}</p>
+            <p className="text-xs text-[#877275]">ÄÃ£ chi</p>
+            <p className="text-lg font-bold text-[#9b3f5a]">{formatCurrency(totalSpent)}</p>
           </div>
         </div>
 
         {totalBudget > 0 && (
           <>
-            <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-2">
+            <div className="h-2.5 bg-[#f8f2f4] rounded-full overflow-hidden mb-2">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${getStatusColor(totalUsage.status)}`}
                 style={{ width: `${Math.min(100, totalUsage.percentage)}%` }}
               />
             </div>
             <div className="flex justify-between text-xs">
-              <span className={`font-medium ${totalUsage.status === 'over' ? 'text-red-500' : totalUsage.status === 'warning' ? 'text-amber-500' : 'text-gray-500'}`}>
-                {totalUsage.percentage.toFixed(0)}% đã dùng
-                {totalUsage.status === 'over' && ' ⚠️ Vượt ngân sách!'}
-                {totalUsage.status === 'warning' && ' ⚠️ Sắp hết'}
+              <span className={`font-medium ${totalUsage.status === 'over' ? 'text-[#9b3f5a]' : totalUsage.status === 'warning' ? 'text-amber-500' : 'text-[#877275]'}`}>
+                {totalUsage.percentage.toFixed(0)}% Ä‘Ã£ dÃ¹ng
+                {totalUsage.status === 'over' && ' âš ï¸ VÆ°á»£t ngÃ¢n sÃ¡ch!'}
+                {totalUsage.status === 'warning' && ' âš ï¸ Sáº¯p háº¿t'}
               </span>
-              <span className="text-gray-500">Còn: {formatCurrency(Math.max(0, totalBudget - totalSpent))}</span>
+              <span className="text-[#877275]">CÃ²n: {formatCurrency(Math.max(0, totalBudget - totalSpent))}</span>
             </div>
           </>
         )}
       </Card>
 
       {/* Category budgets */}
-      <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Ngân sách theo danh mục</h2>
+      <h2 className="text-sm font-semibold text-[#544245] mb-3">NgÃ¢n sÃ¡ch theo danh má»¥c</h2>
       <div className="space-y-3">
         {expenseCategories.map(cat => {
           const catBudgetAmount = budget?.categoryBudgets.find(cb => cb.categoryId === cat.id)?.amount || 0;
@@ -167,10 +167,10 @@ export function Budgets() {
                   {cat.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{cat.name}</p>
+                  <p className="text-sm font-medium text-[#1d1b1d]">{cat.name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-semibold text-red-500">{spent > 0 ? formatCurrency(spent) : '—'}</p>
+                  <p className="text-sm font-semibold text-[#9b3f5a]">{spent > 0 ? formatCurrency(spent) : 'â€”'}</p>
                   {editing ? (
                     <input
                       type="text"
@@ -180,28 +180,28 @@ export function Budgets() {
                         const raw = e.target.value.replace(/[^\d]/g, '');
                         setCatBudgets(prev => ({ ...prev, [cat.id]: raw ? formatAmount(parseInt(raw)) : '' }));
                       }}
-                      placeholder="Chưa đặt"
-                      className="text-xs text-right bg-transparent border-b border-indigo-500 focus:outline-none text-gray-600 dark:text-gray-400 w-24"
+                      placeholder="ChÆ°a Ä‘áº·t"
+                      className="text-xs text-right bg-transparent border-b border-[#9b3f5a] focus:outline-none text-[#544245] w-24"
                     />
                   ) : (
-                    <p className="text-xs text-gray-400">
-                      {catBudgetAmount > 0 ? `/ ${formatCurrency(catBudgetAmount)}` : 'Chưa đặt'}
+                    <p className="text-xs text-[#877275]">
+                      {catBudgetAmount > 0 ? `/ ${formatCurrency(catBudgetAmount)}` : 'ChÆ°a Ä‘áº·t'}
                     </p>
                   )}
                 </div>
               </div>
               {catBudgetAmount > 0 && (
                 <>
-                  <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-[#f8f2f4] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${getStatusColor(usage.status)}`}
                       style={{ width: `${Math.min(100, usage.percentage)}%` }}
                     />
                   </div>
-                  <p className={`text-[10px] mt-1 ${usage.status === 'over' ? 'text-red-500' : usage.status === 'warning' ? 'text-amber-500' : 'text-gray-400'}`}>
+                  <p className={`text-[10px] mt-1 ${usage.status === 'over' ? 'text-[#9b3f5a]' : usage.status === 'warning' ? 'text-amber-500' : 'text-[#877275]'}`}>
                     {usage.percentage.toFixed(0)}%
-                    {usage.status === 'over' && ' — Đã vượt!'}
-                    {usage.status === 'warning' && ' — Sắp hết!'}
+                    {usage.status === 'over' && ' â€” ÄÃ£ vÆ°á»£t!'}
+                    {usage.status === 'warning' && ' â€” Sáº¯p háº¿t!'}
                   </p>
                 </>
               )}
@@ -212,3 +212,5 @@ export function Budgets() {
     </div>
   );
 }
+
+

@@ -14,29 +14,18 @@ export function useSettings(userId: string | undefined) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
-
+    if (!userId) { setLoading(false); return; }
     const ref = doc(db, 'users', userId, 'settings', 'default');
-    const unsubscribe = onSnapshot(ref, snapshot => {
-      if (snapshot.exists()) {
-        setSettings(snapshot.data() as UserSettings);
-      }
+    return onSnapshot(ref, snapshot => {
+      if (snapshot.exists()) setSettings(snapshot.data() as UserSettings);
       setLoading(false);
     });
-
-    return unsubscribe;
   }, [userId]);
 
+  // Dark mode permanently disabled
   useEffect(() => {
-    if (settings.darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [settings.darkMode]);
+    document.documentElement.classList.remove('dark');
+  }, []);
 
   const updateSettings = async (updates: Partial<UserSettings>) => {
     if (!userId) return;

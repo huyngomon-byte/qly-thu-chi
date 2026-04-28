@@ -8,8 +8,8 @@ interface CardProps {
 }
 
 export function Card({ children, className = '', onClick, padding = true }: CardProps) {
-  const base = 'bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm';
-  const interactive = onClick ? 'cursor-pointer hover:shadow-md transition-shadow duration-150 active:scale-[0.99]' : '';
+  const base = 'bg-white rounded-[1.25rem] border border-[#ffd9e0]/20 shadow-[0_4px_12px_rgba(255,143,171,0.08)]';
+  const interactive = onClick ? 'cursor-pointer hover:shadow-[0_4px_16px_rgba(255,143,171,0.14)] transition-shadow duration-150 active:scale-[0.99]' : '';
   const pad = padding ? 'p-4' : '';
 
   return (
@@ -29,15 +29,15 @@ interface StatCardProps {
   className?: string;
 }
 
-export function StatCard({ label, value, icon, iconBg = 'bg-indigo-100 dark:bg-indigo-900', trend, trendUp, className = '' }: StatCardProps) {
+export function StatCard({ label, value, icon, iconBg = 'bg-[#ffd9e0]', trend, trendUp, className = '' }: StatCardProps) {
   return (
     <Card className={className}>
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">{label}</p>
-          <p className="text-xl font-bold text-gray-900 dark:text-gray-100 truncate">{value}</p>
+          <p className="text-[10px] font-bold text-[#877275] uppercase tracking-wide mb-1">{label}</p>
+          <p className="text-xl font-bold text-[#1d1b1d] truncate font-jakarta">{value}</p>
           {trend && (
-            <p className={`text-xs mt-1 font-medium ${trendUp ? 'text-emerald-600' : 'text-red-500'}`}>
+            <p className={`text-xs mt-1 font-medium ${trendUp ? 'text-[#146a5f]' : 'text-[#9b3f5a]'}`}>
               {trendUp ? '↑' : '↓'} {trend}
             </p>
           )}

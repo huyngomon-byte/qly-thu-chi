@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { Plus, Trash2, CheckCircle, DollarSign, Clock, Users, TrendingDown, TrendingUp } from 'lucide-react';
 import { Timestamp } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext';
@@ -58,9 +58,9 @@ export function Loans() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!form.personName.trim()) errs.personName = 'Nhập tên người';
-    if (!form.amount || form.amount <= 0) errs.amount = 'Nhập số tiền';
-    if (!form.walletId) errs.walletId = 'Chọn ví';
+    if (!form.personName.trim()) errs.personName = 'Nháº­p tÃªn ngÆ°á»i';
+    if (!form.amount || form.amount <= 0) errs.amount = 'Nháº­p sá»‘ tiá»n';
+    if (!form.walletId) errs.walletId = 'Chá»n vÃ­';
     setErrors(errs);
     return !Object.keys(errs).length;
   };
@@ -112,49 +112,49 @@ export function Loans() {
   return (
     <div className="px-4 py-5 lg:px-6 max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Vay / Cho vay</h1>
+        <h1 className="text-xl font-bold text-[#1d1b1d]">Vay / Cho vay</h1>
         <div className="flex gap-2">
           <Button size="sm" variant="secondary" icon={<TrendingUp className="w-3.5 h-3.5" />} onClick={() => openAdd('lend')}>
             Cho vay
           </Button>
           <Button size="sm" icon={<TrendingDown className="w-3.5 h-3.5" />} onClick={() => openAdd('borrow')}>
-            Tôi vay
+            TÃ´i vay
           </Button>
         </div>
       </div>
 
       {/* Summary */}
       <div className="grid grid-cols-2 gap-3 mb-5">
-        <div className="rounded-3xl p-4 text-white" style={{ background: 'linear-gradient(135deg,#f43f5e,#e11d48)', boxShadow: '0 8px 24px rgba(244,63,94,0.3)' }}>
+        <div className="rounded-[1.5rem] p-4 text-white" style={{ background: 'linear-gradient(135deg,#f43f5e,#e11d48)', boxShadow: '0 8px 24px rgba(244,63,94,0.3)' }}>
           <div className="flex items-center gap-2 mb-1">
             <TrendingDown className="w-4 h-4 opacity-70" />
-            <p className="text-sm opacity-80 font-medium">Tôi đang nợ</p>
+            <p className="text-sm opacity-80 font-medium">TÃ´i Ä‘ang ná»£</p>
           </div>
           <p className="text-2xl font-bold">{formatCompact(totalBorrow)}</p>
-          <p className="text-xs opacity-60 mt-0.5">{loans.filter(l => l.type === 'borrow' && l.status === 'active').length} khoản</p>
+          <p className="text-xs opacity-60 mt-0.5">{loans.filter(l => l.type === 'borrow' && l.status === 'active').length} khoáº£n</p>
         </div>
-        <div className="rounded-3xl p-4 text-white" style={{ background: 'linear-gradient(135deg,#10b981,#059669)', boxShadow: '0 8px 24px rgba(16,185,129,0.3)' }}>
+        <div className="rounded-[1.5rem] p-4 text-white" style={{ background: 'linear-gradient(135deg,#10b981,#059669)', boxShadow: '0 8px 24px rgba(16,185,129,0.3)' }}>
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="w-4 h-4 opacity-70" />
-            <p className="text-sm opacity-80 font-medium">Người nợ tôi</p>
+            <p className="text-sm opacity-80 font-medium">NgÆ°á»i ná»£ tÃ´i</p>
           </div>
           <p className="text-2xl font-bold">{formatCompact(totalLend)}</p>
-          <p className="text-xs opacity-60 mt-0.5">{loans.filter(l => l.type === 'lend' && l.status === 'active').length} khoản</p>
+          <p className="text-xs opacity-60 mt-0.5">{loans.filter(l => l.type === 'lend' && l.status === 'active').length} khoáº£n</p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-white dark:bg-gray-900 p-1 rounded-2xl shadow-sm mb-4">
+      <div className="flex gap-1 bg-white p-1 rounded-[1.25rem] shadow-sm mb-4">
         {[
-          { value: 'borrow', label: '💸 Tôi vay' },
-          { value: 'lend', label: '🤝 Cho vay' },
-          { value: 'paid', label: '✅ Đã xong' },
+          { value: 'borrow', label: 'ðŸ’¸ TÃ´i vay' },
+          { value: 'lend', label: 'ðŸ¤ Cho vay' },
+          { value: 'paid', label: 'âœ… ÄÃ£ xong' },
         ].map(t => (
           <button
             key={t.value}
             onClick={() => setTab(t.value as any)}
             className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${
-              tab === t.value ? 'bg-indigo-600 text-white shadow' : 'text-gray-500 dark:text-gray-400'
+              tab === t.value ? 'bg-[#9b3f5a] text-white shadow' : 'text-[#877275]'
             }`}
           >
             {t.label}
@@ -165,9 +165,9 @@ export function Loans() {
       {/* Loan list */}
       {displayed.length === 0 ? (
         <EmptyState
-          icon={tab === 'paid' ? '✅' : tab === 'borrow' ? '💸' : '🤝'}
-          title={tab === 'paid' ? 'Chưa có khoản nào hoàn thành' : tab === 'borrow' ? 'Không có khoản đang vay' : 'Không có ai đang nợ bạn'}
-          action={tab !== 'paid' ? { label: `+ ${tab === 'borrow' ? 'Thêm khoản vay' : 'Thêm khoản cho vay'}`, onClick: () => openAdd(tab as 'borrow' | 'lend') } : undefined}
+          icon={tab === 'paid' ? 'âœ…' : tab === 'borrow' ? 'ðŸ’¸' : 'ðŸ¤'}
+          title={tab === 'paid' ? 'ChÆ°a cÃ³ khoáº£n nÃ o hoÃ n thÃ nh' : tab === 'borrow' ? 'KhÃ´ng cÃ³ khoáº£n Ä‘ang vay' : 'KhÃ´ng cÃ³ ai Ä‘ang ná»£ báº¡n'}
+          action={tab !== 'paid' ? { label: `+ ${tab === 'borrow' ? 'ThÃªm khoáº£n vay' : 'ThÃªm khoáº£n cho vay'}`, onClick: () => openAdd(tab as 'borrow' | 'lend') } : undefined}
         />
       ) : (
         <div className="space-y-3">
@@ -181,49 +181,49 @@ export function Loans() {
             const isBorrow = loan.type === 'borrow';
 
             return (
-              <div key={loan.id} className="bg-white dark:bg-gray-900 rounded-3xl p-4 shadow-sm border border-gray-50 dark:border-gray-800">
+              <div key={loan.id} className="bg-white rounded-[1.5rem] p-4 shadow-sm border border-gray-50">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center text-2xl ${isBorrow ? 'bg-red-50 dark:bg-red-900/20' : 'bg-emerald-50 dark:bg-emerald-900/20'}`}>
-                      {isBorrow ? '💸' : '🤝'}
+                    <div className={`w-11 h-11 rounded-[1.25rem] flex items-center justify-center text-2xl ${isBorrow ? 'bg-[#ffd9e0]/20' : 'bg-[#a4f1e3]/20'}`}>
+                      {isBorrow ? 'ðŸ’¸' : 'ðŸ¤'}
                     </div>
                     <div>
-                      <p className="font-bold text-gray-900 dark:text-white">{loan.personName}</p>
-                      <p className="text-xs text-gray-400">
-                        {isBorrow ? 'Vay từ' : 'Cho'} · {formatDate(d)}
-                        {wallet ? ` · ${wallet.name}` : ''}
+                      <p className="font-bold text-[#1d1b1d]">{loan.personName}</p>
+                      <p className="text-xs text-[#877275]">
+                        {isBorrow ? 'Vay tá»«' : 'Cho'} Â· {formatDate(d)}
+                        {wallet ? ` Â· ${wallet.name}` : ''}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`font-bold text-base ${isBorrow ? 'text-rose-500' : 'text-emerald-500'}`}>
+                    <p className={`font-bold text-base ${isBorrow ? 'text-[#9b3f5a]' : 'text-[#146a5f]'}`}>
                       {formatCompact(remaining)}
                     </p>
-                    <p className="text-[10px] text-gray-400">/ {formatCompact(loan.amount)}</p>
+                    <p className="text-[10px] text-[#877275]">/ {formatCompact(loan.amount)}</p>
                   </div>
                 </div>
 
                 {/* Progress */}
                 <div className="mb-3">
-                  <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                  <div className="h-2 bg-[#f8f2f4] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${isBorrow ? 'bg-gradient-to-r from-rose-400 to-red-500' : 'bg-gradient-to-r from-emerald-400 to-green-500'}`}
                       style={{ width: `${progress}%` }}
                     />
                   </div>
                   <div className="flex justify-between mt-1">
-                    <p className="text-[10px] text-gray-400">Đã trả {progress.toFixed(0)}%</p>
+                    <p className="text-[10px] text-[#877275]">ÄÃ£ tráº£ {progress.toFixed(0)}%</p>
                     {loan.dueDate && (
-                      <p className={`text-[10px] font-semibold ${overdue ? 'text-red-500' : days !== null && days <= 7 ? 'text-amber-500' : 'text-gray-400'}`}>
-                        {overdue ? `Quá hạn ${Math.abs(days!)} ngày ⚠️` : days !== null ? `Còn ${days} ngày` : ''}
+                      <p className={`text-[10px] font-semibold ${overdue ? 'text-[#9b3f5a]' : days !== null && days <= 7 ? 'text-amber-500' : 'text-[#877275]'}`}>
+                        {overdue ? `QuÃ¡ háº¡n ${Math.abs(days!)} ngÃ y âš ï¸` : days !== null ? `CÃ²n ${days} ngÃ y` : ''}
                       </p>
                     )}
                   </div>
                 </div>
 
                 {loan.note && (
-                  <p className="text-xs text-gray-400 italic mb-3">"{loan.note}"</p>
+                  <p className="text-xs text-[#877275] italic mb-3">"{loan.note}"</p>
                 )}
 
                 {/* Actions */}
@@ -231,21 +231,21 @@ export function Loans() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => openPay(loan)}
-                      className={`flex-1 py-2 rounded-2xl text-xs font-semibold border-2 transition-all active:scale-95 ${
-                        isBorrow ? 'border-rose-200 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20' : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'
+                      className={`flex-1 py-2 rounded-[1.25rem] text-xs font-semibold border-2 transition-all active:scale-95 ${
+                        isBorrow ? 'border-rose-200 text-[#9b3f5a] hover:bg-[#ffd9e0]/30' : 'border-emerald-200 text-[#146a5f] hover:bg-[#a4f1e3]/20'
                       }`}
                     >
-                      {isBorrow ? '💳 Trả tiền' : '💵 Nhận tiền'}
+                      {isBorrow ? 'ðŸ’³ Tráº£ tiá»n' : 'ðŸ’µ Nháº­n tiá»n'}
                     </button>
                     <button
                       onClick={() => markAsPaid(loan)}
-                      className="flex-1 py-2 rounded-2xl text-xs font-semibold border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all active:scale-95"
+                      className="flex-1 py-2 rounded-[1.25rem] text-xs font-semibold border-2 border-indigo-200 text-[#9b3f5a] hover:bg-[#ffd9e0]/30 transition-all active:scale-95"
                     >
-                      ✅ Xong hẳn
+                      âœ… Xong háº³n
                     </button>
                     <button
                       onClick={() => setDeleteTarget(loan)}
-                      className="w-9 h-9 rounded-2xl border-2 border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 hover:border-red-200 hover:text-red-500 transition-all"
+                      className="w-9 h-9 rounded-[1.25rem] border-2 border-[#dac0c4]/40 flex items-center justify-center text-[#877275] hover:border-red-200 hover:text-[#9b3f5a] transition-all"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -254,8 +254,8 @@ export function Loans() {
 
                 {loan.status === 'paid' && (
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-emerald-600 font-semibold bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 rounded-xl">✅ Đã hoàn thành</span>
-                    <button onClick={() => setDeleteTarget(loan)} className="text-gray-300 hover:text-red-400 transition-colors">
+                    <span className="text-xs text-[#146a5f] font-semibold bg-[#a4f1e3]/20 px-3 py-1 rounded-xl">âœ… ÄÃ£ hoÃ n thÃ nh</span>
+                    <button onClick={() => setDeleteTarget(loan)} className="text-[#dac0c4] hover:text-red-400 transition-colors">
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -267,14 +267,14 @@ export function Loans() {
       )}
 
       {/* Add Modal */}
-      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title={form.type === 'borrow' ? '💸 Thêm khoản vay' : '🤝 Thêm khoản cho vay'}>
+      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title={form.type === 'borrow' ? 'ðŸ’¸ ThÃªm khoáº£n vay' : 'ðŸ¤ ThÃªm khoáº£n cho vay'}>
         <div className="p-5 space-y-4">
-          <div className="flex gap-2 bg-gray-50 dark:bg-gray-800 rounded-2xl p-1">
-            {[{ v: 'borrow', l: '💸 Tôi vay' }, { v: 'lend', l: '🤝 Tôi cho vay' }].map(({ v, l }) => (
+          <div className="flex gap-2 bg-[#f8f2f4] rounded-[1.25rem] p-1">
+            {[{ v: 'borrow', l: 'ðŸ’¸ TÃ´i vay' }, { v: 'lend', l: 'ðŸ¤ TÃ´i cho vay' }].map(({ v, l }) => (
               <button
                 key={v}
                 onClick={() => setForm(f => ({ ...f, type: v as 'borrow' | 'lend' }))}
-                className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${form.type === v ? 'bg-indigo-600 text-white' : 'text-gray-500'}`}
+                className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${form.type === v ? 'bg-[#9b3f5a] text-white' : 'text-[#877275]'}`}
               >
                 {l}
               </button>
@@ -282,15 +282,15 @@ export function Loans() {
           </div>
 
           <Input
-            label={form.type === 'borrow' ? 'Vay từ ai?' : 'Cho ai vay?'}
+            label={form.type === 'borrow' ? 'Vay tá»« ai?' : 'Cho ai vay?'}
             value={form.personName}
             onChange={e => setForm(f => ({ ...f, personName: e.target.value }))}
-            placeholder="Tên người..."
+            placeholder="TÃªn ngÆ°á»i..."
             error={errors.personName}
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Số tiền</label>
+            <label className="block text-sm font-medium text-[#544245] mb-1.5">Sá»‘ tiá»n</label>
             <input
               type="text"
               inputMode="numeric"
@@ -302,19 +302,19 @@ export function Loans() {
               placeholder="0"
               className="input-modern"
             />
-            {errors.amount && <p className="mt-1 text-xs text-red-500">{errors.amount}</p>}
+            {errors.amount && <p className="mt-1 text-xs text-[#9b3f5a]">{errors.amount}</p>}
           </div>
 
-          <Input label="Ngày" type="date" value={formatInputDate(form.date)} onChange={e => setForm(f => ({ ...f, date: new Date(e.target.value) }))} />
+          <Input label="NgÃ y" type="date" value={formatInputDate(form.date)} onChange={e => setForm(f => ({ ...f, date: new Date(e.target.value) }))} />
 
           <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={hasDueDate} onChange={e => setHasDueDate(e.target.checked)} className="rounded text-indigo-600" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">Có ngày đến hạn</span>
+            <input type="checkbox" checked={hasDueDate} onChange={e => setHasDueDate(e.target.checked)} className="rounded text-[#9b3f5a]" />
+            <span className="text-sm text-[#544245]">CÃ³ ngÃ y Ä‘áº¿n háº¡n</span>
           </label>
 
           {hasDueDate && (
             <Input
-              label="Ngày đến hạn"
+              label="NgÃ y Ä‘áº¿n háº¡n"
               type="date"
               value={form.dueDate ? formatInputDate(form.dueDate) : ''}
               onChange={e => setForm(f => ({ ...f, dueDate: new Date(e.target.value) }))}
@@ -322,7 +322,7 @@ export function Loans() {
           )}
 
           <Select
-            label="Ví liên quan"
+            label="VÃ­ liÃªn quan"
             value={form.walletId}
             onChange={e => setForm(f => ({ ...f, walletId: e.target.value }))}
             options={activeWallets.map(w => ({ value: w.id, label: w.name }))}
@@ -330,29 +330,29 @@ export function Loans() {
           />
 
           <Input
-            label="Ghi chú"
+            label="Ghi chÃº"
             value={form.note}
             onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
-            placeholder="Tùy chọn..."
+            placeholder="TÃ¹y chá»n..."
           />
 
           <Button fullWidth onClick={handleSave} loading={saving}>
-            {form.type === 'borrow' ? 'Lưu khoản vay' : 'Lưu khoản cho vay'}
+            {form.type === 'borrow' ? 'LÆ°u khoáº£n vay' : 'LÆ°u khoáº£n cho vay'}
           </Button>
         </div>
       </Modal>
 
       {/* Pay Modal */}
-      <Modal isOpen={showPayModal} onClose={() => setShowPayModal(false)} title={payTarget?.type === 'borrow' ? '💳 Trả tiền' : '💵 Nhận tiền'} size="sm">
+      <Modal isOpen={showPayModal} onClose={() => setShowPayModal(false)} title={payTarget?.type === 'borrow' ? 'ðŸ’³ Tráº£ tiá»n' : 'ðŸ’µ Nháº­n tiá»n'} size="sm">
         <div className="p-5 space-y-4">
           {payTarget && (
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-3">
-              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">{payTarget.personName}</p>
-              <p className="text-xs text-gray-400">Còn lại: {formatCurrency(payTarget.amount - payTarget.paidAmount)}</p>
+            <div className="bg-[#f8f2f4] rounded-[1.25rem] p-3">
+              <p className="text-sm font-semibold text-[#544245]">{payTarget.personName}</p>
+              <p className="text-xs text-[#877275]">CÃ²n láº¡i: {formatCurrency(payTarget.amount - payTarget.paidAmount)}</p>
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Số tiền</label>
+            <label className="block text-sm font-medium text-[#544245] mb-1.5">Sá»‘ tiá»n</label>
             <input
               type="text"
               inputMode="numeric"
@@ -366,8 +366,8 @@ export function Loans() {
               autoFocus
             />
           </div>
-          <Input label="Ghi chú" value={payNote} onChange={e => setPayNote(e.target.value)} placeholder="Tùy chọn..." />
-          <Button fullWidth onClick={handlePay} loading={paying}>Xác nhận</Button>
+          <Input label="Ghi chÃº" value={payNote} onChange={e => setPayNote(e.target.value)} placeholder="TÃ¹y chá»n..." />
+          <Button fullWidth onClick={handlePay} loading={paying}>XÃ¡c nháº­n</Button>
         </div>
       </Modal>
 
@@ -381,10 +381,11 @@ export function Loans() {
           setDeleteTarget(null);
           setDeleting(false);
         }}
-        title="Xoá khoản vay"
-        message="Số dư ví sẽ được hoàn lại theo trạng thái hiện tại. Chắc chắn xoá?"
+        title="XoÃ¡ khoáº£n vay"
+        message="Sá»‘ dÆ° vÃ­ sáº½ Ä‘Æ°á»£c hoÃ n láº¡i theo tráº¡ng thÃ¡i hiá»‡n táº¡i. Cháº¯c cháº¯n xoÃ¡?"
         loading={deleting}
       />
     </div>
   );
 }
+
