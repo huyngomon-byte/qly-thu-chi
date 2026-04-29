@@ -146,11 +146,11 @@ export function Budgets() {
 
   const getStatusColor = (status: 'safe' | 'warning' | 'over') => {
 
-    if (status === 'over') return 'bg-[#ffd9e0]/200';
+    if (status === 'over') return 'bg-[#9b3f5a]';
 
     if (status === 'warning') return 'bg-amber-500';
 
-    return 'bg-[#a4f1e3]/200';
+    return 'bg-[#146a5f]';
 
   };
 

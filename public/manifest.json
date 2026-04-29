@@ -1,0 +1,21 @@
+{
+  "name": "Quản Lý Thu Chi",
+  "short_name": "Thu Chi",
+  "description": "Quản lý thu chi cá nhân - Theo dõi tài chính đơn giản và hiệu quả",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fef8fa",
+  "theme_color": "#9b3f5a",
+  "orientation": "portrait-primary",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "screenshots": []
+}

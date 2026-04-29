@@ -14,7 +14,7 @@ import { useBudgets } from '../hooks/useBudgets';
 import { useLoans } from '../hooks/useLoans';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import {
-  getTotalIncome, getTotalExpense, getDailyData,
+  getTotalIncome, getTotalExpense, getDailyData, getDailyRangeData,
   getCategoryData, getTopCategories, getBudgetUsage, filterByDateRange,
 } from '../utils/calculations';
 import { formatCurrency, formatCompact } from '../utils/currency';
@@ -83,7 +83,10 @@ export function Dashboard() {
   const todayExpense = useMemo(() => getTotalExpense(todayTx),  [todayTx]);
   const weekExpense  = useMemo(() => getTotalExpense(weekTx),   [weekTx]);
 
-  const dailyData    = useMemo(() => getDailyData(monthTx, month),          [monthTx, month]);
+  const dailyData    = useMemo(() => {
+    if (dateMode === 'range') return getDailyRangeData(monthTx, start, end);
+    return getDailyData(monthTx, month);
+  }, [monthTx, month, dateMode, start, end]);
   const categoryData = useMemo(() => getCategoryData(monthTx, categories),  [monthTx, categories]);
   const topCategories= useMemo(() => getTopCategories(categoryData, 6),     [categoryData]);
 
@@ -220,6 +223,33 @@ export function Dashboard() {
             );
           })()}
         </div>
+
+        {/* ── Net Worth card ── */}
+        {(() => {
+          const netWorth = totalBalance + totalLend - totalBorrow;
+          return (
+            <div className="bg-white rounded-[1.25rem] p-4 shadow-pink-sm border border-[#ffd9e0]/20">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm font-bold text-[#1d1b1d]">Tài sản ròng</p>
+                <p className={`text-base font-bold font-jakarta ${netWorth >= 0 ? 'text-[#146a5f]' : 'text-[#9b3f5a]'}`}>{formatCompact(netWorth)}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div className="bg-[#f8f2f4] rounded-xl p-2.5">
+                  <p className="text-[9px] text-[#877275] font-semibold uppercase tracking-wide mb-1">Số dư ví</p>
+                  <p className="text-xs font-bold text-[#1d1b1d]">{formatCompact(totalBalance)}</p>
+                </div>
+                <div className="bg-[#a4f1e3]/20 rounded-xl p-2.5">
+                  <p className="text-[9px] text-[#146a5f] font-semibold uppercase tracking-wide mb-1">Cho vay</p>
+                  <p className="text-xs font-bold text-[#146a5f]">+{formatCompact(totalLend)}</p>
+                </div>
+                <div className="bg-[#ffd9e0]/20 rounded-xl p-2.5">
+                  <p className="text-[9px] text-[#9b3f5a] font-semibold uppercase tracking-wide mb-1">Đang nợ</p>
+                  <p className="text-xs font-bold text-[#9b3f5a]">-{formatCompact(totalBorrow)}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ── Budget alert ── */}
         {budgetUsage && budgetUsage.status !== 'safe' && (

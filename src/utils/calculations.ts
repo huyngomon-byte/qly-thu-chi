@@ -103,3 +103,26 @@ export function getBudgetUsage(
 export function getTopCategories(data: CategoryData[], limit = 5): CategoryData[] {
   return data.slice(0, limit);
 }
+
+// Chart data for an arbitrary date range (groups by day label, max 90 days)
+export function getDailyRangeData(transactions: Transaction[], start: Date, end: Date): DailyData[] {
+  const msPerDay = 86_400_000;
+  const days = Math.min(Math.round((end.getTime() - start.getTime()) / msPerDay) + 1, 90);
+
+  const data: DailyData[] = Array.from({ length: days }, (_, i) => {
+    const d = new Date(start.getTime() + i * msPerDay);
+    const label = `${d.getDate()}/${d.getMonth() + 1}`;
+    return { day: label, income: 0, expense: 0 };
+  });
+
+  transactions.forEach(t => {
+    const date = t.date instanceof Timestamp ? t.date.toDate() : (t.date as Date);
+    const idx = Math.round((date.getTime() - start.getTime()) / msPerDay);
+    if (idx >= 0 && idx < days) {
+      if (t.type === 'income')  data[idx].income  += t.amount;
+      if (t.type === 'expense') data[idx].expense += t.amount;
+    }
+  });
+
+  return data;
+}

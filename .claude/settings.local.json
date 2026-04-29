@@ -10,7 +10,10 @@
       "Bash(git branch *)",
       "Bash(git remote *)",
       "Bash(git push *)",
-      "Bash(powershell -Command '\\(Get-Content '\\\\''__TRACKED_VAR__'\\\\''\\) -replace '\\\\'' dark:[a-zA-Z0-9\\\\/\\\\[\\\\]:.#!_-]+'\\\\'', '\\\\'''\\\\'' | Set-Content '\\\\''__TRACKED_VAR__'\\\\''')"
+      "Bash(powershell -Command '\\(Get-Content '\\\\''__TRACKED_VAR__'\\\\''\\) -replace '\\\\'' dark:[a-zA-Z0-9\\\\/\\\\[\\\\]:.#!_-]+'\\\\'', '\\\\'''\\\\'' | Set-Content '\\\\''__TRACKED_VAR__'\\\\''')",
+      "Bash(python3 -c ' *)",
+      "Bash(python -c ' *)",
+      "Bash(npx tsc *)"
     ]
   }
 }

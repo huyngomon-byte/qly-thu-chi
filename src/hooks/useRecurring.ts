@@ -18,6 +18,7 @@ import { getCurrentMonth } from '../utils/date';
 
 export interface RecurringFormData {
   name: string;
+  type: 'income' | 'expense';
   amount: number;
   categoryId: string;
   walletId: string;
@@ -87,8 +88,9 @@ export function useRecurring(userId: string | undefined) {
     const txDate = new Date(year, mon - 1, day);
 
     const txRef = doc(collection(db, 'users', userId, 'transactions'));
+    const txType = item.type || 'expense';
     batch.set(txRef, {
-      type: 'expense',
+      type: txType,
       amount: item.amount,
       date: Timestamp.fromDate(txDate),
       categoryId: item.categoryId,
@@ -105,7 +107,10 @@ export function useRecurring(userId: string | undefined) {
     });
 
     const walletRef = doc(db, 'users', userId, 'wallets', item.walletId);
-    batch.update(walletRef, { currentBalance: increment(-item.amount), updatedAt: now });
+    batch.update(walletRef, {
+      currentBalance: increment(txType === 'income' ? item.amount : -item.amount),
+      updatedAt: now,
+    });
 
     const recurringRef = doc(db, 'users', userId, 'recurringExpenses', item.id);
     batch.update(recurringRef, { lastCreated: currentMonth, updatedAt: now });

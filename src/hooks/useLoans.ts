@@ -94,11 +94,25 @@ export function useLoans(userId: string | undefined) {
 
   const markAsPaid = async (loan: Loan) => {
     if (!userId) throw new Error('Not authenticated');
-    await updateDoc(doc(db, 'users', userId, 'loans', loan.id), {
+    const remaining = loan.amount - loan.paidAmount;
+    const batch = writeBatch(db);
+    const now = Timestamp.now();
+    batch.update(doc(db, 'users', userId, 'loans', loan.id), {
       status: 'paid',
       paidAmount: loan.amount,
-      updatedAt: Timestamp.now(),
+      updatedAt: now,
     });
+    // Settle wallet for any remaining unpaid balance
+    if (remaining > 0) {
+      const walletRef = doc(db, 'users', userId, 'wallets', loan.walletId);
+      // borrow: paying off remainder → money leaves wallet
+      // lend: receiving remainder → money enters wallet
+      batch.update(walletRef, {
+        currentBalance: increment(loan.type === 'borrow' ? -remaining : remaining),
+        updatedAt: now,
+      });
+    }
+    await batch.commit();
   };
 
   const deleteLoan = async (loan: Loan) => {

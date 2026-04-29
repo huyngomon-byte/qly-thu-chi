@@ -69,6 +69,7 @@ export interface RecurringExpense {
   id: string;
   userId: string;
   name: string;
+  type: 'income' | 'expense';
   amount: number;
   categoryId: string;
   walletId: string;
