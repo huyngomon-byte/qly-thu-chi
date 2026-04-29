@@ -167,19 +167,21 @@ export function Dashboard() {
 
         {/* ── Hero balance card ── */}
         <div className="bg-white rounded-[1.5rem] p-5 shadow-pink-md border border-[#ffd9e0]/30">
-            {/* Balance label */}
-          <div className="mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#877275]">Tổng số dư</p>
+          {/* Row 1: tổng số dư thực tế */}
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#877275] mb-1">Tổng số dư hiện tại</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-3xl font-bold text-[#9b3f5a] font-jakarta">{formatCurrency(totalBalance)}</p>
+                {totalBalance >= 0
+                  ? <TrendingUp  className="w-5 h-5 text-[#146a5f]" />
+                  : <TrendingDown className="w-5 h-5 text-[#9b3f5a]" />}
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-baseline gap-2 mb-5">
-            <p className="text-3xl font-bold text-[#9b3f5a] font-jakarta">{formatCurrency(totalBalance)}</p>
-            {totalBalance >= 0
-              ? <TrendingUp  className="w-5 h-5 text-[#146a5f]" />
-              : <TrendingDown className="w-5 h-5 text-[#9b3f5a]" />}
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
+          {/* Row 2: thu / chi trong kỳ */}
+          <div className="grid grid-cols-2 gap-3 mb-3">
             <div className="bg-[#a4f1e3]/20 rounded-2xl p-3.5 flex flex-col gap-1.5">
               <div className="w-8 h-8 bg-[#a4f1e3]/60 rounded-full flex items-center justify-center text-base">💰</div>
               <p className="text-[10px] text-[#1e7065] font-bold uppercase tracking-wide">Thu nhập</p>
@@ -191,6 +193,32 @@ export function Dashboard() {
               <p className="text-base font-bold text-[#9b3f5a] font-jakarta">{formatCompact(totalExpense)}</p>
             </div>
           </div>
+
+          {/* Row 3: số dư kỳ */}
+          {(() => {
+            const periodNet = totalIncome - totalExpense;
+            const isPos = periodNet >= 0;
+            return (
+              <div className={`rounded-2xl px-4 py-3 flex items-center justify-between ${isPos ? 'bg-[#a4f1e3]/15' : 'bg-[#ffd9e0]/25'}`}>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-[#877275]">Số dư trong kỳ</p>
+                  <p className="text-[10px] text-[#877275] mt-0.5">
+                    {dateMode === 'month'
+                      ? getMonthLabel(month)
+                      : `${rangeFrom} → ${rangeTo}`}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {isPos
+                    ? <TrendingUp  className="w-4 h-4 text-[#146a5f]" />
+                    : <TrendingDown className="w-4 h-4 text-[#9b3f5a]" />}
+                  <p className={`text-lg font-bold font-jakarta ${isPos ? 'text-[#146a5f]' : 'text-[#9b3f5a]'}`}>
+                    {isPos ? '+' : ''}{formatCompact(periodNet)}
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         {/* ── Budget alert ── */}
