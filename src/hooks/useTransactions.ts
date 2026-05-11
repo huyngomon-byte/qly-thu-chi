@@ -69,13 +69,24 @@ export function useTransactions(userId: string | undefined) {
     const txRef = doc(collection(db, 'users', userId, 'transactions'));
     const now = Timestamp.now();
 
-    batch.set(txRef, {
-      ...formData,
+    const txData: Record<string, unknown> = {
+      type: formData.type,
+      amount: formData.amount,
       date: Timestamp.fromDate(formData.date),
+      categoryId: formData.categoryId,
+      walletId: formData.walletId,
+      note: formData.note,
+      payee: formData.payee,
+      paymentMethod: formData.paymentMethod,
+      isFixed: formData.isFixed,
+      isRecurring: formData.isRecurring,
       userId,
       createdAt: now,
       updatedAt: now,
-    });
+    };
+    if (formData.toWalletId) txData.toWalletId = formData.toWalletId;
+
+    batch.set(txRef, txData);
 
     const walletRef = doc(db, 'users', userId, 'wallets', formData.walletId);
     if (formData.type === 'income') {
@@ -98,11 +109,22 @@ export function useTransactions(userId: string | undefined) {
     const now = Timestamp.now();
     const txRef = doc(db, 'users', userId, 'transactions', id);
 
-    batch.update(txRef, {
-      ...formData,
+    const updateData: Record<string, unknown> = {
+      type: formData.type,
+      amount: formData.amount,
       date: Timestamp.fromDate(formData.date),
+      categoryId: formData.categoryId,
+      walletId: formData.walletId,
+      note: formData.note,
+      payee: formData.payee,
+      paymentMethod: formData.paymentMethod,
+      isFixed: formData.isFixed,
+      isRecurring: formData.isRecurring,
       updatedAt: now,
-    });
+    };
+    if (formData.toWalletId) updateData.toWalletId = formData.toWalletId;
+
+    batch.update(txRef, updateData);
 
     // Revert old transaction's wallet effect
     const oldWalletRef = doc(db, 'users', userId, 'wallets', oldTx.walletId);
