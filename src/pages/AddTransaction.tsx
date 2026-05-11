@@ -100,7 +100,7 @@ export function AddTransaction() {
     const formData: TransactionFormData = {
       type,
       amount: parseAmount(amountStr),
-      date: new Date(date),
+      date: new Date(date + 'T00:00:00'),
       categoryId: type === 'transfer' ? 'transfer' : categoryId,
       walletId,
       toWalletId: type === 'transfer' ? toWalletId : undefined,
@@ -112,6 +112,7 @@ export function AddTransaction() {
       else await addTransaction(formData);
       navigate(-1);
     } catch (err) {
+      console.error('Transaction error:', err);
       setErrors({ submit: 'Có lỗi, thử lại nhé!' });
     } finally {
       setLoading(false);

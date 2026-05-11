@@ -140,7 +140,9 @@ export function Loans() {
 
     try {
 
-      await addLoan(form);
+      const submitForm = { ...form };
+      if (!hasDueDate) delete submitForm.dueDate;
+      await addLoan(submitForm);
 
       setShowAddModal(false);
 
