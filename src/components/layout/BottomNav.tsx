@@ -36,7 +36,7 @@ export function BottomNav() {
   const isMoreActive = MORE_ROUTES.some(r => location.pathname.startsWith(r));
 
   const navCls = (isActive: boolean) =>
-    `flex flex-col items-center justify-center gap-0.5 px-3 py-2 transition-all duration-200 active:scale-90 ${
+    `flex flex-col items-center justify-center gap-0.5 px-3 py-2 active:scale-95 ${
       isActive ? 'text-[#9b3f5a]' : 'text-[#877275]'
     }`;
 
@@ -50,18 +50,18 @@ export function BottomNav() {
       {/* ── More sheet backdrop ── */}
       {open && (
         <div
-          className="lg:hidden fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
+          className="lg:hidden fixed inset-0 z-[60] bg-black/25"
           onClick={() => setOpen(false)}
         />
       )}
 
       {/* ── More bottom sheet ── */}
       <div
-        className={`lg:hidden fixed left-0 right-0 z-[70] transition-all duration-300 ease-out ${
+        className={`lg:hidden fixed left-0 right-0 z-[70] transition-transform duration-200 ease-out ${
           open ? 'bottom-0' : '-bottom-full'
         }`}
       >
-        <div className="bg-white rounded-t-[2rem] shadow-[0_-8px_40px_rgba(155,63,90,0.15)] px-5 pt-5 pb-10">
+        <div className="bg-white rounded-t-[1.5rem] shadow-[0_-6px_20px_rgba(155,63,90,0.12)] px-5 pt-5 pb-10">
           {/* Handle + header */}
           <div className="w-10 h-1 bg-[#dac0c4]/50 rounded-full mx-auto mb-5" />
           <div className="flex items-center justify-between mb-5">
@@ -82,7 +82,7 @@ export function BottomNav() {
                 <button
                   key={to}
                   onClick={() => handleMoreNav(to)}
-                  className={`flex flex-col items-center gap-2.5 p-4 rounded-[1.25rem] transition-all active:scale-95 border-2 ${
+                  className={`flex flex-col items-center gap-2.5 p-4 rounded-[1.25rem] active:scale-95 border-2 ${
                     isActive
                       ? 'border-[#ff8fab] bg-[#ffd9e0]/30'
                       : 'border-transparent bg-[#f8f2f4]'
@@ -105,8 +105,7 @@ export function BottomNav() {
           {/* Quick add shortcut */}
           <button
             onClick={() => { setOpen(false); navigate('/add-transaction'); }}
-            className="w-full mt-4 py-3.5 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
-            style={{ background: 'linear-gradient(135deg, #9b3f5a 0%, #c2547a 100%)', boxShadow: '0 6px 20px rgba(155,63,90,0.30)' }}
+            className="w-full mt-4 py-3.5 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] bg-[#9b3f5a]"
           >
             <Plus className="w-5 h-5" strokeWidth={2.5} />
             Thêm giao dịch mới
@@ -117,14 +116,14 @@ export function BottomNav() {
       {/* ── Bottom nav pill ── */}
       <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50">
         <div
-          className="bottom-nav-shadow mx-4 mb-4 bg-white/95 backdrop-blur-xl rounded-full border border-[#ffd9e0]/60 flex items-center justify-around h-16 px-2"
+          className="bottom-nav-shadow mx-4 mb-4 bg-white rounded-full border border-[#ffd9e0]/60 flex items-center justify-around h-16 px-2"
         >
           {/* Left items */}
           {PRIMARY.map(({ to, icon: Icon, label, end }) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => navCls(isActive)}>
               {({ isActive }) => (
                 <>
-                  <div className={`p-1.5 rounded-xl transition-all ${isActive ? 'bg-[#ffd9e0]' : ''}`}>
+                  <div className={`p-1.5 rounded-xl ${isActive ? 'bg-[#ffd9e0]' : ''}`}>
                     <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 2} />
                   </div>
                   <span className="text-[9px] font-semibold">{label}</span>
@@ -136,7 +135,7 @@ export function BottomNav() {
           {/* FAB */}
           <button
             onClick={() => { setOpen(false); navigate('/add-transaction'); }}
-            className="fab-shadow bg-[#9b3f5a] w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 hover:scale-105 -mt-7 border-4 border-white flex-shrink-0"
+            className="fab-shadow bg-[#9b3f5a] w-14 h-14 rounded-full flex items-center justify-center active:scale-95 -mt-7 border-4 border-white flex-shrink-0"
             aria-label="Thêm giao dịch"
           >
             <Plus className="w-6 h-6 text-white" strokeWidth={2.5} />
@@ -147,7 +146,7 @@ export function BottomNav() {
             <NavLink key={to} to={to} className={({ isActive }) => navCls(isActive)}>
               {({ isActive }) => (
                 <>
-                  <div className={`p-1.5 rounded-xl transition-all ${isActive ? 'bg-[#ffd9e0]' : ''}`}>
+                  <div className={`p-1.5 rounded-xl ${isActive ? 'bg-[#ffd9e0]' : ''}`}>
                     <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 2} />
                   </div>
                   <span className="text-[9px] font-semibold">{label}</span>
@@ -159,11 +158,11 @@ export function BottomNav() {
           {/* More button */}
           <button
             onClick={() => setOpen(prev => !prev)}
-            className={`flex flex-col items-center justify-center gap-0.5 px-3 py-2 transition-all active:scale-90 ${
+            className={`flex flex-col items-center justify-center gap-0.5 px-3 py-2 active:scale-95 ${
               isMoreActive || open ? 'text-[#9b3f5a]' : 'text-[#877275]'
             }`}
           >
-            <div className={`p-1.5 rounded-xl transition-all ${isMoreActive || open ? 'bg-[#ffd9e0]' : ''}`}>
+            <div className={`p-1.5 rounded-xl ${isMoreActive || open ? 'bg-[#ffd9e0]' : ''}`}>
               <MoreHorizontal className="w-5 h-5" strokeWidth={isMoreActive || open ? 2.5 : 2} />
             </div>
             <span className="text-[9px] font-semibold">Thêm</span>
