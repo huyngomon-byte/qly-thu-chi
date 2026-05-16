@@ -13,6 +13,7 @@ import { Recurring } from './pages/Recurring';
 import { Reports } from './pages/Reports';
 import { Settings } from './pages/Settings';
 import { Loans } from './pages/Loans';
+import { Savings } from './pages/Savings';
 
 function ProtectedRoutes() {
   const { user, loading } = useAuth();
@@ -33,6 +34,7 @@ function ProtectedRoutes() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/loans" element={<Loans />} />
+        <Route path="/savings" element={<Savings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>

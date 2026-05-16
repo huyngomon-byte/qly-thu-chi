@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, List, Wallet, Tag, Target,
-  RefreshCcw, BarChart2, Settings, TrendingUp, LogOut, Handshake,
+  RefreshCcw, BarChart2, Settings, TrendingUp, LogOut, Handshake, PiggyBank,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -13,6 +13,7 @@ const navItems = [
   { to: '/budgets',    icon: Target,           label: 'Ngân sách',    end: false },
   { to: '/recurring',  icon: RefreshCcw,       label: 'Chi cố định',  end: false },
   { to: '/loans',      icon: Handshake,        label: 'Vay / Cho vay', end: false },
+  { to: '/savings',    icon: PiggyBank,        label: 'Tiết kiệm',     end: false },
   { to: '/reports',    icon: BarChart2,        label: 'Báo cáo',      end: false },
   { to: '/settings',   icon: Settings,         label: 'Cài đặt',      end: false },
 ];

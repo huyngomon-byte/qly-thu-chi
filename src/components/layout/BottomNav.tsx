@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, List, Plus, Wallet, BarChart2,
   Target, Tag, RefreshCcw, Handshake, Settings,
-  MoreHorizontal, X,
+  MoreHorizontal, X, PiggyBank,
 } from 'lucide-react';
 
 // Primary nav — always visible
@@ -18,6 +18,7 @@ const PRIMARY_RIGHT = [
 // All pages shown in the "More" sheet
 const MORE_ITEMS = [
   { to: '/loans',     icon: Handshake,  label: 'Vay/Cho vay', color: '#e2dfff', iconColor: '#4d44e3' },
+  { to: '/savings',   icon: PiggyBank,  label: 'Tiết kiệm',   color: '#ffd9e0', iconColor: '#9b3f5a' },
   { to: '/budgets',   icon: Target,     label: 'Ngân sách',   color: '#ffd9e0', iconColor: '#9b3f5a' },
   { to: '/reports',   icon: BarChart2,  label: 'Báo cáo',     color: '#a4f1e3', iconColor: '#146a5f' },
   { to: '/categories',icon: Tag,        label: 'Danh mục',    color: '#ffd9e0', iconColor: '#9b3f5a' },
