@@ -128,3 +128,19 @@ export interface CategoryData {
   amount: number;
   percentage: number;
 }
+
+export interface SavingsGoal {
+  id: string;
+  userId: string;
+  name: string;
+  icon: string;
+  targetAmount: number;
+  currentAmount: number;
+  deadline?: Timestamp;
+  walletId: string;
+  isCompleted: boolean;
+  note: string;
+  color: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
